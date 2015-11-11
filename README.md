@@ -2,7 +2,7 @@
 
 Most of these tutorials can either be read as a text files or run as interactive iPython notebooks (recommended!).
 
-To run an iPython notebook tutorial, copy this landlab/tutorials repo to your local working environment (use the download button or fork/clone, whichever is most familiar to you).
+To run an iPython notebook tutorial, copy this landlab/tutorials repo to your local working environment (use the ``download ZIP`` button or fork/clone, whichever is most familiar to you).
 
 From the command line in your terminal, navigate into your new directory.
 
