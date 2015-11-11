@@ -1,2 +1,0 @@
-linear_diffusivity: in m2 per year
-0.01
