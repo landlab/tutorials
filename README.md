@@ -8,4 +8,4 @@ After downloading/cloning, navigate into your new directory (or to the directory
 
 Use the command ``$ ipython notebook`` to launch the iPython notebook viewer (it will open locally in your browser). Then navigate to the ``.ipynb`` tutorial you want to run and click to open it.
 
-To run the notebook, place your cursor in a code cell and type ``shift`` ``enter``. The order in which you run the cells matters. You can even experiment with typing your own code into the cell and running that.
+To run the code in the notebook, place your cursor in a code cell and type ``shift`` ``enter``. The order in which you run the cells matters. You can even experiment with typing your own code into the cell and running that.
