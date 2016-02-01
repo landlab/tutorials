@@ -1,3 +1,5 @@
+# Let's begin with the one-component diffusion model.
+
 from landlab.components.diffusion import LinearDiffuser
 from landlab import ModelParameterDictionary
 from landlab.plot.imshow import imshow_node_grid
@@ -28,9 +30,9 @@ z += (initial_slope * np.amax(mg.node_y)) - (initial_slope * mg.node_y)
 
 z += np.random.rand(z.size) / 100000.
 
-mg.set_closed_boundaries_at_grid_edges(False, True, False, True)
+mg.set_closed_boundaries_at_grid_edges(True, False, True, False)
 
-mg.set_fixed_value_boundaries_at_grid_edges(True, False, True, False)
+mg.set_fixed_value_boundaries_at_grid_edges(False, True, False, True)
 
 lin_diffuse = LinearDiffuser(mg, input_file)
 
@@ -44,7 +46,6 @@ while keep_running:
     mg.at_node['topographic__elevation'][mg.core_nodes] += uplift_per_step # add the uplift
     elapsed_time += dt
 
-
 # Create a figure and plot the elevations
 pylab.figure(1)
 im = imshow_node_grid(mg, 'topographic__elevation', grid_units = ['m','m'])
@@ -52,12 +53,15 @@ im = imshow_node_grid(mg, 'topographic__elevation', grid_units = ['m','m'])
 pylab.figure(2)
 elev_rast = mg.node_vector_to_raster(mg.at_node['topographic__elevation'])
 ycoord_rast = mg.node_vector_to_raster(mg.node_y)
-im = pylab.plot(ycoord_rast[:,int(ncols // 2)], elev_rast[:,int(ncols // 2)])
+im = pylab.plot(ycoord_rast[:, int(ncols // 2)], elev_rast[:, int(ncols // 2)])
 pylab.xlabel('horizontal distance (m)')
 pylab.ylabel('vertical distance (m)')
 pylab.title('topographic__elevation cross section')
 
-# Now we're going to take a similar approach but this time combine the outputs of three distinct Landlab components: the diffuser, the monodirectional flow router, and the stream power incisor. For clarity, we're going to repeat the whole process from the start.
+# Now we're going to take a similar approach but this time combine the outputs
+# of three distinct Landlab components: the diffuser, the monodirectional flow
+# router, and the stream power incisor.
+
 from landlab.components.flow_routing import FlowRouter
 from landlab.components.stream_power import StreamPowerEroder
 from landlab.components.diffusion import LinearDiffuser
@@ -86,14 +90,13 @@ z += leftmost_elev
 z += (initial_slope * np.amax(mg.node_y)) - (initial_slope * mg.node_y)
 initial_roughness = np.random.rand(z.size)/100000.
 z += initial_roughness
-mg.set_closed_boundaries_at_grid_edges(False, True, False, True)
-mg.set_fixed_value_boundaries_at_grid_edges(True, False, True, False)
+mg.set_closed_boundaries_at_grid_edges(True, False, True, False)
+mg.set_fixed_value_boundaries_at_grid_edges(False, True, False, True)
 
 fr = FlowRouter(mg) # note the flow router doesn't have to take an input file
 sp = StreamPowerEroder(mg, input_file)
 lin_diffuse = LinearDiffuser(mg, input_file)
 
-# And now we run! We're going to run once with the diffusion and once without.
 elapsed_time = 0.
 keep_running = True
 counter = 0 # simple incremented counter to let us see the model advance
@@ -140,7 +143,10 @@ while keep_running:
 pylab.figure('topo with diffusion')
 im = imshow_node_grid(mg, 'topographic__elevation', grid_units=['km','km'])
 
-# As a final step, we're going to repeat the above coupled model run, but this time we're going to plot some evolving channel profiles, and we're going to drive the simulation with a sequence of storms, not just a fixed timestep.
+# As a final step, we're going to repeat the above coupled model run, but this
+# time we're going to plot some evolving channel profiles, and we're going to
+# drive the simulation with a sequence of storms, not just a fixed timestep.
+
 from landlab.plot import channel_profile as prf
 from landlab.components.uniform_precip import PrecipitationDistribution
 
@@ -158,8 +164,7 @@ for (interval_duration, rainfall_rate) in precip.yield_storm_interstorm_duration
     if rainfall_rate != 0.:
         # note diffusion also only happens when it's raining...
         _ = fr.route_flow()
-        sp.gear_timestep(interval_duration, rainfall_intensity_in=rainfall_rate)
-        _ = sp.erode(mg)
+        _ = sp.erode(mg, interval_duration)
         _ = lin_diffuse.diffuse(interval_duration)
     mg.at_node['topographic__elevation'][mg.core_nodes] += uplift_rate * interval_duration
     this_trunc = precip.elapsed_time // out_interval
