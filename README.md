@@ -4,7 +4,7 @@ Most of these Landlab tutorials can either be read as text files or run as inter
 
 To run the IPython notebook tutorials locally, you can copy this [landlab/tutorials](https://github.com/landlab/tutorials) repo to your local working environment (use the ``download ZIP`` button or fork/clone, whichever is most familiar to you).
 
-Alternatively, you can also access each notebook online from [http://nbviewer.ipython.org/github/landlab/tutorials](http://nbviewer.jupyter.org/github/landlab/tutorials) and download an individual notebook (navigate to the specific IPython notebook you want, open it, and click the download button that appears in the upper right).
+Alternatively, you can also access each notebook online from [http://nbviewer.ipython.org/github/landlab/tutorials](https://nbviewer.jupyter.org/github/landlab/tutorials) and download an individual notebook (navigate to the specific IPython notebook you want, open it, and click the download button that appears in the upper right).
 
 After downloading/cloning, navigate into your new directory (or to the directory containing your new download) from the command line in your terminal.
 
