@@ -37,7 +37,7 @@ import matplotlib.pyplot as plt
 # Let's plot the positions of all the grid nodes. The nodes' (x,y) positions
 # are stored in the arrays mg.node_x and mg.node_y, respectively.
 plt.figure(1)
-plt.plot(mg.node_x, mg.node_y, '.')
+plt.plot(mg.x_of_node, mg.y_of_node, '.')
 plt.show()
 
 # There are 1000 grid nodes (25 x 40). The `z` array also has 1000 entries: 
@@ -45,15 +45,15 @@ plt.show()
 len(z)
 
 # Add a fault trace that angles roughly east-northeast.
-fault_trace_y = 50.0 + 0.25*mg.node_x
+fault_trace_y = 50.0 + 0.25 * mg.x_of_node
 
 # Find the ID numbers of the nodes north of the fault trace with help from 
 # NumPy's `where()` function.
-upthrown_nodes = numpy.where(mg.node_y > fault_trace_y)
+upthrown_nodes = numpy.where(mg.y_of_node > fault_trace_y)
 
 # Add elevation equal to 10m for all the nodes north of the fault, plus 1cm
 # for every meter east (just to make it interesting).
-z[upthrown_nodes] += 10.0 + 0.01*mg.node_x[upthrown_nodes]
+z[upthrown_nodes] += 10.0 + 0.01 * mg.x_of_node[upthrown_nodes]
 
 # Show the newly created initial topography using Landlab's *imshow_node_grid*
 # plotting function (which we first need to import).
@@ -65,24 +65,57 @@ plt.show()
 # To finish getting set up, we will define two parameters: the transport
 # ("diffusivity") coefficient, D, and the time-step size, dt. (The latter is
 # set using the Courant condition for a forward-time, centered-space
-# finite-difference solution
+# finite-difference solution)
 D = 0.01  # m2/yr transport coefficient
-dt = 0.2*mg.dx*mg.dx/D
+dt = 0.2 * mg.dx * mg.dx / D
 
 # Boundary conditions: for this example, we'll assume that the east and west
 # sides are closed to flow of sediment, but that the north and south sides are
 # open. (The order of the function arguments is east, north, west, south)
 mg.set_closed_boundaries_at_grid_edges(False, True, False, True)
 
-# Loop through 25 iterations representing 50,000 years
+# One more thing before we run the time loop: we'll create an array to contain
+# soil flux. In the function call below, the first argument tells Landlab that
+# we want one value for each grid link, while the second argument provides a
+# name for this data field:
+qs = mg.add_zeros('link', 'sediment_flux')
+
+# And now for some landform evolution. We will loop through 25 iterations,
+# representing 50,000 years. On each pass through the loop, we do the
+# following:
+#
+#    Calculate, and store in the array g, the gradient between each neighboring
+#    pair of nodes. These calculations are done on links. The gradient value is
+#    a positive number when the gradient is "uphill" in the direction of the
+#    link, and negative when the gradient is "downhill" in the direction of the
+#    link. On a raster grid, link directions are always in the direction of
+#    increasing x ("horizontal" links) or increasing y ("vertical" links).
+#
+#    Calculate, and store in the array qs, the sediment flux between each
+#    adjacent pair of nodes by multiplying their gradient by the transport
+#    coefficient. We will only do this for the active links (those not
+#    connected to a closed boundary, and not connecting two boundary nodes of
+#    any type); others will remain as zero.
+#
+#    Calculate, and store in dqsdx, the resulting net flux at each node
+#    (positive=net outflux, negative=net influx).
+#
+#    The rate of change of node elevation, dzdt, is simply -dqsdx.
+#
+#    Update the elevations for the new time step.
+#
 for i in range(25):
-    g = mg.calculate_gradients_at_active_links(z)
-    qs = -D*g
-    dqsdx = mg.calculate_flux_divergence_at_nodes(qs)
+    g = mg.calc_grad_at_link(z)
+    qs[mg.active_links] = -D * g[mg.active_links]
+    dqsdx = mg.calc_flux_div_at_node(qs)
     dzdt = -dqsdx
-    z[mg.core_nodes] += dzdt[mg.core_nodes]*dt
+    z[mg.core_nodes] += dzdt[mg.core_nodes] * dt
 
 # Show how our fault scarp has evolved.
 plt.figure(3)
 imshow_node_grid(mg, 'land_surface__elevation')
 plt.show()
+
+# Notice that we have just created and run a 2D model of fault-scarp creation
+# and diffusion with fewer than two dozen lines of code. How long would this
+# have taken to write in C or Fortran?
