@@ -30,7 +30,7 @@ def run_tutorial(path):
     try:
         print('{name}: running tutorial'.format(name=script))
         proc = subprocess.Popen(cat, stdout=subprocess.PIPE)
-        with open('stdout.txt', 'w') as fp:
+        with open('stdout.out', 'w') as fp:
             subprocess.Popen(['python'], stdin=proc.stdout, stdout=fp)
     except ImportError:
         print('{name}: unable to run tutorial'.format(name=script))
