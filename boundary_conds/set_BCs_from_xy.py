@@ -3,7 +3,7 @@
 
 from landlab import RasterModelGrid, CLOSED_BOUNDARY
 import numpy as np
-from landlab.plot.imshow import imshow_node_grid
+from landlab.plot.imshow import imshow_grid_at_node
 from matplotlib.pyplot import show
 
 mg = RasterModelGrid((10, 10), 1.)
@@ -21,5 +21,5 @@ mg.status_at_node[my_nodes] = CLOSED_BOUNDARY
 
 z = mg.add_zeros('node', 'topographic__elevation')
 
-imshow_node_grid(mg, z)
+imshow_grid_at_node(mg, z)
 show()
