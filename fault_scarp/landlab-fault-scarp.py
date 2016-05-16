@@ -57,9 +57,9 @@ z[upthrown_nodes] += 10.0 + 0.01 * mg.x_of_node[upthrown_nodes]
 
 # Show the newly created initial topography using Landlab's *imshow_node_grid*
 # plotting function (which we first need to import).
-from landlab.plot.imshow import imshow_node_grid
+from landlab.plot.imshow import imshow_grid_at_node
 plt.figure(2)
-imshow_node_grid(mg, 'land_surface__elevation')
+imshow_grid_at_node(mg, 'land_surface__elevation')
 plt.show()
 
 # To finish getting set up, we will define two parameters: the transport
@@ -113,7 +113,7 @@ for i in range(25):
 
 # Show how our fault scarp has evolved.
 plt.figure(3)
-imshow_node_grid(mg, 'land_surface__elevation')
+imshow_grid_at_node(mg, 'land_surface__elevation')
 plt.show()
 
 # Notice that we have just created and run a 2D model of fault-scarp creation
