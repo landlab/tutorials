@@ -22,7 +22,7 @@
 
 # In[1]:
 
-get_ipython().magic(u'pylab inline')
+# get_ipython().magic(u'pylab inline')
 
 
 # ## Create the component
