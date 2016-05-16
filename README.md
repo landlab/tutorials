@@ -8,7 +8,7 @@ Alternatively, you can also access each notebook online from [https://nbviewer.j
 
 After downloading/cloning, navigate into your new directory (or to the directory containing your new download) from the command line in your terminal.
 
-Use the command ``$ ipython notebook`` to launch the IPython notebook viewer (it will open locally in your browser). Then navigate to the ``.ipynb`` tutorial you want to run and click to open it.
+Use the command ``$ jupyter notebook`` to launch Jupyter, the IPython notebook viewer (it will open locally in your browser). Then navigate to the ``.ipynb`` tutorial you want to run and click to open it.
 
 To run the code in the notebook, place your cursor in a code cell, hold down ``shift``, and press ``enter``. The order in which you run the cells matters. You can even experiment with typing your own code into the cell and running that.
 
