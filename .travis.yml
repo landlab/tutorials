@@ -1,0 +1,18 @@
+env:
+  matrix:
+  - TRAVIS_PYTHON_VERSION="2.7"
+  - TRAVIS_PYTHON_VERSION="3.4"
+  - TRAVIS_PYTHON_VERSION="3.5"
+os:
+- linux
+- osx
+sudo: false
+install:
+- echo "Build on $TRAVIS_OS_NAME for Python $TRAVIS_PYTHON_VERSION"
+- bash .ci/travis/install_python.sh
+- export PATH="$HOME/miniconda/bin:$PATH"
+- conda install -q -c https://conda.anaconda.org/landlab/label/dev landlab
+script:
+- python .ci/run_tutorials.py
+virtualenv:
+  system_site_packages: false
