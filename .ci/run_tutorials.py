@@ -1,9 +1,11 @@
 from __future__ import print_function
 
 import os
+import sys
 import importlib
 import subprocess
 from glob import glob
+import collections
 
 
 THIS_DIR = os.path.abspath(os.path.dirname(__file__))
@@ -14,8 +16,20 @@ def find_tutorials(basedir):
 
 
 def run_tutorials(paths):
+    status = collections.defaultdict(list)
     for path in paths:
-        run_tutorial(path)
+        try:
+            print('{name}: running tutorial'.format(name=path))
+            run_tutorial(path)
+        except subprocess.CalledProcessError:
+            print('{name}: unable to successfully run tutorial'.format(
+                name=path))
+            status['fail'].append(path)
+        else:
+            status['pass'].append(path)
+            print('{name}: success'.format(name=path))
+
+    return status
 
 
 def run_tutorial(path):
@@ -28,20 +42,24 @@ def run_tutorial(path):
 
     cat = ['cat', header, script]
     try:
-        print('{name}: running tutorial'.format(name=script))
         proc = subprocess.Popen(cat, stdout=subprocess.PIPE)
         with open('stdout.out', 'w') as fp:
-            subprocess.Popen(['python'], stdin=proc.stdout, stdout=fp)
-    except ImportError:
-        print('{name}: unable to run tutorial'.format(name=script))
-    else:
-        print('{name}: success'.format(name=script))
+            subprocess.check_call(['python'], stdin=proc.stdout, stdout=fp)
+    except subprocess.CalledProcessError:
+        raise
     finally:
         os.chdir(here)
 
 
 def main():
-    run_tutorials(find_tutorials('.'))
+    errors = run_tutorials(find_tutorials('.'))
+
+    try:
+        print(errors['fail'])
+    except KeyError:
+        sys.exit(0)
+    else:
+        sys.exit(-1)
 
 
 if __name__ == '__main__':
