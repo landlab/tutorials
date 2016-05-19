@@ -180,7 +180,7 @@ for i in range(smg.number_of_nodes):
 # In[ ]:
 
 for i in range(smg.number_of_links):
-    print 'Link',i,':  node',smg.node_at_link_tail[i],'===> node',smg.node_at_link_head[i]
+    print('Link',i,':  node',smg.node_at_link_tail[i],'===> node',smg.node_at_link_head[i])
 
 
 # Boundary conditions are likewise defined on these elements (see also the full
