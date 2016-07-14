@@ -5,16 +5,12 @@ import numpy as np
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 from landlab.plot import imshow_grid
-from landlab.components.uniform_precip.generate_uniform_precip \
-                        import PrecipitationDistribution
-from landlab.components.radiation.radiation_field import Radiation
-from landlab.components.pet.potential_evapotranspiration_field \
-                        import PotentialEvapotranspiration
-from landlab.components.soil_moisture.soil_moisture_multi_pft_new  \
-                        import SoilMoisture
-from landlab.components.single_vegetation.vegetation_multi_pft_new \
-                        import Vegetation
-from landlab.components.vegetation_ca.CA_Veg_new  import VegCA
+from landlab.components import PrecipitationDistribution
+from landlab.components import Radiation
+from landlab.components import PotentialEvapotranspiration
+from landlab.components import SoilMoisture
+from landlab.components import Vegetation
+from landlab.components import VegCA
 
 GRASS = 0
 SHRUB = 1
@@ -23,65 +19,66 @@ BARE = 3
 SHRUBSEEDLING = 4
 TREESEEDLING = 5
 
-## Function that converts text file to a dictionary
-def txt_data_dict( InputFile ):
-    f = open( InputFile )
+
+# Function that converts text file to a dictionary
+def txt_data_dict(InputFile):
+    f = open(InputFile)
     data1 = {}
     for line in f:
-       if line.strip() != '' and line[0] != '#':
-           m, n = line.split(':')
-           line = f.next()
-           e = line[:].strip()
-           if e[0].isdigit():
-               if e.find('.') != -1:
-                   data1[m.strip()] = float(line[:].strip())
-               else:
-                   data1[m.strip()] = int(line[:].strip())
-           else:
-               data1[m.strip()] = line[:].strip()
+        if line.strip() != '' and line[0] != '#':
+            m, n = line.split(':')
+            line = f.next()
+            e = line[:].strip()
+            if e[0].isdigit():
+                if e.find('.') != -1:
+                    data1[m.strip()] = float(line[:].strip())
+                else:
+                    data1[m.strip()] = int(line[:].strip())
+            else:
+                data1[m.strip()] = line[:].strip()
     f.close()
     return data1.copy()
 
-def Initialize_( data,grid,grid1, elevation ):
-    ## Plant types are defined as following:
+
+def Initialize_(data, grid, grid1, elevation):
+    # Plant types are defined as following:
     # GRASS = 0; SHRUB = 1; TREE = 2; BARE = 3;
     # SHRUBSEEDLING = 4; TREESEEDLING = 5
-    ## Initialize random plant type field
-    grid['cell']['VegetationType'] = np.random.choice([0,1,2,3,0,2],  \
-                                                            grid.number_of_cells)
-    ## Assign plant type for representative ecohydrologic simulations
-    grid1['cell']['VegetationType'] = np.arange(0,6)
-
-    grid1['node']['Elevation'] = 1700. * np.ones(grid1.number_of_nodes)
-    grid['node']['Elevation'] = elevation
-
+    # Initialize random plant type field
+    grid['cell']['vegetation__plant_functional_type'] = np.random.choice([0, 1, 2, 3, 0, 2],
+                                                      grid.number_of_cells)
+    # Assign plant type for representative ecohydrologic simulations
+    grid1['cell']['vegetation__plant_functional_type'] = np.arange(0, 6)
+    grid1['node']['topographic__elevation'] = 1700. * np.ones(grid1.number_of_nodes)
+    grid['node']['topographic__elevation'] = elevation
+    
     PD_D = PrecipitationDistribution(mean_storm = data['mean_storm_dry'],  \
-                        mean_interstorm = data['mean_interstorm_dry'],
-                        mean_storm_depth = data['mean_storm_depth_dry'])
+                    mean_interstorm = data['mean_interstorm_dry'],
+                    mean_storm_depth = data['mean_storm_depth_dry'])
     PD_W = PrecipitationDistribution(mean_storm = data['mean_storm_wet'],  \
-                        mean_interstorm = data['mean_interstorm_wet'],
-                        mean_storm_depth = data['mean_storm_depth_wet'])
+                    mean_interstorm = data['mean_interstorm_wet'],
+                    mean_storm_depth = data['mean_storm_depth_wet'])
     Rad = Radiation( grid )
     Rad_PET = Radiation( grid1 )
     PET_Tree = PotentialEvapotranspiration( grid1, method = data['PET_method'], \
-                        MeanTmaxF = data['MeanTmaxF_tree'],
-                        DeltaD = data['DeltaD'] )
+                    MeanTmaxF = data['MeanTmaxF_tree'],
+                    DeltaD = data['DeltaD'] )
     PET_Shrub = PotentialEvapotranspiration( grid1, method = data['PET_method'], \
-                        MeanTmaxF = data['MeanTmaxF_shrub'],
-                        DeltaD = data['DeltaD'] )
+                    MeanTmaxF = data['MeanTmaxF_shrub'],
+                    DeltaD = data['DeltaD'] )
     PET_Grass = PotentialEvapotranspiration( grid1, method = data['PET_method'], \
-                        MeanTmaxF = data['MeanTmaxF_grass'],
-                        DeltaD = data['DeltaD'] )
+                    MeanTmaxF = data['MeanTmaxF_grass'],
+                    DeltaD = data['DeltaD'] )
     SM = SoilMoisture( grid, data )   # Soil Moisture object
     VEG = Vegetation( grid, data )    # Vegetation object
     vegca = VegCA( grid, data )      # Cellular automaton object
-
+    
     ## Initializing inputs for Soil Moisture object
     grid['cell']['LiveLeafAreaIndex'] = 1.6 * np.ones( grid.number_of_cells )
     SM._SO = 0.59 * np.ones(grid.number_of_cells) # Initializing Soil Moisture
-
+    
     return PD_D, PD_W, Rad, Rad_PET, PET_Tree, PET_Shrub, PET_Grass, SM, \
-                                                                VEG, vegca
+                                                            VEG, vegca
 
 
 def Empty_arrays(n, grid, grid1):
