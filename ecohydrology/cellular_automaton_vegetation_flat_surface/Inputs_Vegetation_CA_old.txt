@@ -2,7 +2,6 @@
 ### All inputs for Vegetation Cellular Automaton Model built on The Landlab
 ### can be given here.
 ### 14Feb2015 - Sai Nudurupati & Erkan Istanbulluoglu
-### 15Jul2016 - Updated to comply with Landlab Version 1 naming conventions.
 
 ### There are some rules to use this input file:
 ###    1) The variable's identifier should not be changed, for e.g. 'mean_storm_dry'  is
@@ -64,121 +63,121 @@ MeanTmaxF_tree:         # Mean annual rate of TmaxF (mm/d)
 
 ## Soil Moisture:
 
-runon:                  # Runon from higher elevations (mm)
+RUNON:                  # Runon from higher elevations (mm)
 0.
-f_bare:                 # Fraction to partition PET for bare soil (None)
+F_BARE:                 # Fraction to partition PET for bare soil (None)
 0.7
 
 # Grass
 
 VEGTYPE_grass:          # Integer value to infer Vegetation Type
 0
-intercept_cap_grass:    # Full canopy interception capacity  (mm)
+INTERCEPT_CAP_grass:    # Full canopy interception capacity  (mm)
 1.
-zr_grass:               # Root depth (m)
+ZR_grass:               # Root depth (m)
 0.3
 I_B_grass:              # Infiltration capacity of bare soil (mm/h)
 20.
 I_V_grass:              # Infiltration capacity of vegetated soil (mm/h)
 24.
-pc_grass:               # Soil porosity (None)
+PC_grass:               # Soil porosity (None)
 0.43
-fc_grass:               # Soil saturation degree at field capacity (None)
+FC_grass:               # Soil saturation degree at field capacity (None)
 0.56
-sc_grass:               # Soil saturation degree at stomatal closure (None)
+SC_grass:               # Soil saturation degree at stomatal closure (None)
 0.33
-wp_grass:               # Soil saturation degree at wilting point (None)
+WP_grass:               # Soil saturation degree at wilting point (None)
 0.13
-hgw_grass:              # Soil saturation degree at hygroscopic point (None)
+HGW_grass:              # Soil saturation degree at hygroscopic point (None)
 0.1
-beta_grass:             # Deep percolation constant = 2*b+4  where b is water retention parameter
+BETA_grass:             # Deep percolation constant = 2*b+4  where b is water retention parameter
 13.8
 
 # Shrub
 
 VEGTYPE_shrub:          # Integer value to infer Vegetation Type
 1
-intercept_cap_shrub:    # Full canopy interception capacity  (mm)
+INTERCEPT_CAP_shrub:    # Full canopy interception capacity  (mm)
 1.5
-zr_shrub:               # Root depth (m)
+ZR_shrub:               # Root depth (m)
 0.5
 I_B_shrub:              # Infiltration capacity of bare soil (mm/h)
 20.
 I_V_shrub:              # Infiltration capacity of vegetated soil (mm/h)
 40.
-pc_shrub:               # Soil porosity (None)
+PC_shrub:               # Soil porosity (None)
 0.43
-fc_shrub:               # Soil saturation degree at field capacity (None)
+FC_shrub:               # Soil saturation degree at field capacity (None)
 0.56
-sc_shrub:               # Soil saturation degree at stomatal closure (None)
+SC_shrub:               # Soil saturation degree at stomatal closure (None)
 0.24
-wp_shrub:               # Soil saturation degree at wilting point (None)
+WP_shrub:               # Soil saturation degree at wilting point (None)
 0.13
-hgw_shrub:              # Soil saturation degree at hygroscopic point (None)
+HGW_shrub:              # Soil saturation degree at hygroscopic point (None)
 0.1
-beta_shrub:             # Deep percolation constant = 2*b+4  where b is water retention parameter
+BETA_shrub:             # Deep percolation constant = 2*b+4  where b is water retention parameter
 13.8
 
 # Tree
 
 VEGTYPE_tree:           # Integer value to infer Vegetation Type
 2
-intercept_cap_tree:     # Full canopy interception capacity  (mm)
+INTERCEPT_CAP_tree:     # Full canopy interception capacity  (mm)
 2.
-zr_tree:                # Root depth (m)
+ZR_tree:                # Root depth (m)
 1.3
 I_B_tree:               # Infiltration capacity of bare soil (mm/h)
 20.
 I_V_tree:               # Infiltration capacity of vegetated soil (mm/h)
 40.
-pc_tree:                # Soil porosity (None)
+PC_tree:                # Soil porosity (None)
 0.43
-fc_tree:                # Soil saturation degree at field capacity (None)
+FC_tree:                # Soil saturation degree at field capacity (None)
 0.56
-sc_tree:                # Soil saturation degree at stomatal closure (None)
+SC_tree:                # Soil saturation degree at stomatal closure (None)
 0.22
-wp_tree:                # Soil saturation degree at wilting point (None)
+WP_tree:                # Soil saturation degree at wilting point (None)
 0.15
-hgw_tree:               # Soil saturation degree at hygroscopic point (None)
+HGW_tree:               # Soil saturation degree at hygroscopic point (None)
 0.1
-beta_tree:              # Deep percolation constant = 2*b+4  where b is water retention parameter
+BETA_tree:              # Deep percolation constant = 2*b+4  where b is water retention parameter
 13.8
 
 # Bare Soil
 
 VEGTYPE_bare:          # Integer value to infer Vegetation Type
 3
-intercept_cap_bare:    # Full canopy interception capacity  (mm)
+INTERCEPT_CAP_bare:    # Full canopy interception capacity  (mm)
 1.
-zr_bare:               # Root depth (m)
+ZR_bare:               # Root depth (m)
 0.15
 I_B_bare:              # Infiltration capacity of bare soil (mm/h)
 20.
 I_V_bare:              # Infiltration capacity of vegetated soil (mm/h)
 20.
-pc_bare:               # Soil porosity (None)
+PC_bare:               # Soil porosity (None)
 0.43
-fc_bare:               # Soil saturation degree at field capacity (None)
+FC_bare:               # Soil saturation degree at field capacity (None)
 0.56
-sc_bare:               # Soil saturation degree at stomatal closure (None)
+SC_bare:               # Soil saturation degree at stomatal closure (None)
 0.33
-wp_bare:               # Soil saturation degree at wilting point (None)
+WP_bare:               # Soil saturation degree at wilting point (None)
 0.13
-hgw_bare:              # Soil saturation degree at hygroscopic point (None)
+HGW_bare:              # Soil saturation degree at hygroscopic point (None)
 0.1
-beta_bare:             # Deep percolation constant
+BETA_bare:             # Deep percolation constant
 13.8
 
 
 ## Vegetation Dynamics:
 
-Blive_init:
+BLIVE_INI:
 102.
-Bdead_init:
+BDEAD_INI:
 450.
-ETthreshold_up:         # PET threshold for growing season (mm/d)
+ETTup:                  # PET threshold for growing season (mm/d)
 3.8
-ETthreshold_down:       # PET threshold for dormant season (mm/d)
+ETTdwn:                 # PET threshold for dormant season (mm/d)
 6.8
 Tdmax:					# Constant for dead biomass loss adjustment (mm/d)
 10.
@@ -189,76 +188,76 @@ w:						# Conversion factor of CO2 to dry biomass (Kg DM/Kg CO2)
 
 WUE_grass:              # Water use efficiency KgCO2Kg-1H2O
 0.01
-cb_grass:               # Specific leaf area for green/live biomass (m2 leaf g-1 DM)
+CB_grass:               # Specific leaf area for green/live biomass (m2 leaf g-1 DM)
 0.0047
-cd_grass:               # Specific leaf area for dead biomass (m2 leaf g-1 DM)
+CD_grass:               # Specific leaf area for dead biomass (m2 leaf g-1 DM)
 0.009
-ksg_grass:              # Senescence coefficient of green/live biomass (d-1)
+KSG_grass:              # Senescence coefficient of green/live biomass (d-1)
 0.012
-kdd_grass:              # Decay coefficient of aboveground dead biomass (d-1)
+KDD_grass:              # Decay coefficient of aboveground dead biomass (d-1)
 0.013
-kws_grass:              # Maximum drought induced foliage loss rate (d-1)
+KWS_grass:              # Maximum drought induced foliage loss rate (d-1)
 0.02
-LAI_max_grass:          # Maximum leaf area index (m2/m2)
+LAI_MAX_grass:          # Maximum leaf area index (m2/m2)
 2.
-LAIR_max_grass:         # Reference leaf area index (m2/m2)
+LAIR_MAX_grass:         # Reference leaf area index (m2/m2)
 2.88
 
 # Shrub
 
 WUE_shrub:              # Water use efficiency KgCO2Kg-1H2O
 0.0025
-cb_shrub:               # Specific leaf area for green/live biomass (m2 leaf g-1 DM)
+CB_shrub:               # Specific leaf area for green/live biomass (m2 leaf g-1 DM)
 0.004
-cd_shrub:               # Specific leaf area for dead biomass (m2 leaf g-1 DM)
+CD_shrub:               # Specific leaf area for dead biomass (m2 leaf g-1 DM)
 0.01
-ksg_shrub:              # Senescence coefficient of green/live biomass (d-1)
+KSG_shrub:              # Senescence coefficient of green/live biomass (d-1)
 0.002
-kdd_shrub:              # Decay coefficient of aboveground dead biomass (d-1)
+KDD_shrub:              # Decay coefficient of aboveground dead biomass (d-1)
 0.013
-kws_shrub:              # Maximum drought induced foliage loss rate (d-1)
+KWS_shrub:              # Maximum drought induced foliage loss rate (d-1)
 0.02
-LAI_max_shrub:          # Maximum leaf area index (m2/m2)
+LAI_MAX_shrub:          # Maximum leaf area index (m2/m2)
 2.
-LAIR_max_shrub:         # Reference leaf area index (m2/m2)
+LAIR_MAX_shrub:         # Reference leaf area index (m2/m2)
 2.
 
 # Tree
 
 WUE_tree:               # Water use efficiency KgCO2Kg-1H2O
 0.0045
-cb_tree:                # Specific leaf area for green/live biomass (m2 leaf g-1 DM)
+CB_tree:                # Specific leaf area for green/live biomass (m2 leaf g-1 DM)
 0.004
-cd_tree:                # Specific leaf area for dead biomass (m2 leaf g-1 DM)
+CD_tree:                # Specific leaf area for dead biomass (m2 leaf g-1 DM)
 0.01
-ksg_tree:               # Senescence coefficient of green/live biomass (d-1)
+KSG_tree:               # Senescence coefficient of green/live biomass (d-1)
 0.002
-kdd_tree:               # Decay coefficient of aboveground dead biomass (d-1)
+KDD_tree:               # Decay coefficient of aboveground dead biomass (d-1)
 0.013
-kws_tree:               # Maximum drought induced foliage loss rate (d-1)
+KWS_tree:               # Maximum drought induced foliage loss rate (d-1)
 0.01
-LAI_max_tree:          # Maximum leaf area index (m2/m2)
+LAI_MAX_tree:          # Maximum leaf area index (m2/m2)
 4.
-LAIR_max_tree:          # Reference leaf area index (m2/m2)
+LAIR_MAX_tree:          # Reference leaf area index (m2/m2)
 4.
 
 # Bare
 
 WUE_bare:              # Water use efficiency KgCO2Kg-1H2O
 0.01
-cb_bare:               # Specific leaf area for green/live biomass (m2 leaf g-1 DM)
+CB_bare:               # Specific leaf area for green/live biomass (m2 leaf g-1 DM)
 0.0047
-cd_bare:               # Specific leaf area for dead biomass (m2 leaf g-1 DM)
+CD_bare:               # Specific leaf area for dead biomass (m2 leaf g-1 DM)
 0.009
-ksg_bare:              # Senescence coefficient of green/live biomass (d-1)
+KSG_bare:              # Senescence coefficient of green/live biomass (d-1)
 0.012
-kdd_bare:              # Decay coefficient of aboveground dead biomass (d-1)
+KDD_bare:              # Decay coefficient of aboveground dead biomass (d-1)
 0.013
-kws_bare:              # Maximum drought induced foliage loss rate (d-1)
+KWS_bare:              # Maximum drought induced foliage loss rate (d-1)
 0.02
-LAI_max_bare:          # Maximum leaf area index (m2/m2)
+LAI_MAX_bare:          # Maximum leaf area index (m2/m2)
 0.01
-LAIR_max_bare:         # Reference leaf area index (m2/m2)
+LAIR_MAX_bare:         # Reference leaf area index (m2/m2)
 0.01
 
 
