@@ -26,6 +26,16 @@ n_long_DEM:              # Number of storms for long simulation that operates on
 n_long_flat:             # Number of storms for long simulation that operates on two grids - flat surface
 660000
 
+## Initial Plant Functional Types (PFT) distribution
+percent_bare_initial:   # Initial percentage of cells occupied by bare soil
+0.7
+percent_grass_initial:  # Initial percentage of cells occupied by grass
+0.1
+percent_shrub_initial:  # Initial percentage of cells occupied by shrubs
+0.1
+percent_tree_initial:   # Initial percentage of cells occupied by trees
+0.1
+
 ## Precipitation:
 
 # Dry Season
@@ -42,6 +52,10 @@ mean_interstorm_wet:     # Mean interstorm duration (hours)
 84.24
 mean_storm_depth_wet:    # Mean storm depth (mm)
 4.79
+doy__start_of_monsoon:   # Day of the year when the monsoon starts
+182
+doy__end_of_monsoon:     # Day of the year when the monsoon ends
+273
 
 ## PotentialEvapotranspiration:
 # Cosine Method
@@ -176,9 +190,9 @@ Blive_init:
 102.
 Bdead_init:
 450.
-ETthreshold_up:         # PET threshold for growing season (mm/d)
+PET_growth_threshold:    # PET threshold for growing season (mm/d)
 3.8
-ETthreshold_down:       # PET threshold for dormant season (mm/d)
+PET_dormancy_threshold:  # PET threshold for dormant season (mm/d)
 6.8
 Tdmax:					# Constant for dead biomass loss adjustment (mm/d)
 10.
