@@ -285,18 +285,18 @@ Pemaxg:                 # Maximal establishment probability
 ING:                    # Parameter to define allelopathic effect on grass from cresotebush
 2
 ThetaGrass:             # Drought resistant threshold
-0.62
+0.5
 PmbGrass:               # Background mortality probability
 0.05
 
 # Shrub
 
 Pemaxsh:                # Maximal establishment probability
-0.2
+0.001
 ThetaShrub:             # Drought resistant threshold
-0.8
+0.6
 PmbShrub:               # Background mortality probability
-0.01
+0.05
 tpmaxShrub:             # Maximum age (yr)
 600
 
@@ -305,7 +305,7 @@ tpmaxShrub:             # Maximum age (yr)
 Pemaxtr:                # Maximal establishment probability
 0.25
 ThetaTree:              # Drought resistant threshold
-0.72
+0.6
 PmbTree:                # Background mortality probability
 0.01
 tpmaxTree:              # Maximum age (yr)
@@ -314,7 +314,7 @@ tpmaxTree:              # Maximum age (yr)
 # ShrubSeedling
 
 ThetaShrubSeedling:     # Drought resistant threshold
-0.64
+0.54
 PmbShrubSeedling:       # Background mortality probability
 0.03
 tpmaxShrubSeedling:     # Maximum age (yr)
@@ -323,7 +323,7 @@ tpmaxShrubSeedling:     # Maximum age (yr)
 # TreeSeedling
 
 ThetaTreeSeedling:      # Drought resistant threshold
-0.64
+0.45
 PmbTreeSeedling:        # Background mortality probability
 0.03
 tpmaxTreeSeedling:      # Maximum age (yr)
