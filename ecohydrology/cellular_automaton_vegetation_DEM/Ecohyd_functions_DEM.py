@@ -40,6 +40,7 @@ def txt_data_dict(InputFile):
     return data1.copy()
 
 
+# Function to compose spatially distribute PFT
 def compose_veg_grid(grid, percent_bare=0.4, percent_grass=0.2,
                      percent_shrub=0.2, percent_tree=0.2):
     no_cells = grid.number_of_cells
@@ -91,7 +92,7 @@ def Initialize_(data, grid, grid1, elevation):
     SM = SoilMoisture(grid, **data)   # Soil Moisture object
     VEG = Vegetation(grid, **data)    # Vegetation object
     vegca = VegCA(grid, **data)      # Cellular automaton object
-    
+
     # # Initializing inputs for Soil Moisture object
     grid['cell']['vegetation__live_leaf_area_index'] = (
                                     1.6 * np.ones(grid.number_of_cells))

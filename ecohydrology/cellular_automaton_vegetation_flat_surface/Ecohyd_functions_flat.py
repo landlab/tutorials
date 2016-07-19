@@ -40,13 +40,31 @@ def txt_data_dict(InputFile):
     return data1.copy()
 
 
+# Function to compose spatially distribute PFT
+def compose_veg_grid(grid, percent_bare=0.4, percent_grass=0.2,
+                     percent_shrub=0.2, percent_tree=0.2):
+    no_cells = grid.number_of_cells
+    V = 3 * np.ones(grid.number_of_cells, dtype=int)
+    shrub_point = int(percent_bare * no_cells)
+    tree_point = int((percent_bare + percent_shrub) * no_cells)
+    grass_point = int((1 - percent_grass) * no_cells)
+    V[shrub_point:tree_point] = 1
+    V[tree_point:grass_point] = 2
+    V[grass_point:] = 0
+    np.random.shuffle(V)
+    return V
+
+
 def Initialize_(data, grid, grid1):
     # Plant types are defined as following:
     # GRASS = 0; SHRUB = 1; TREE = 2; BARE = 3;
     # SHRUBSEEDLING = 4; TREESEEDLING = 5
     # Initialize random plant type field
-    grid1['cell']['vegetation__plant_functional_type'] = np.random.choice([
-                                    0, 1, 2, 3, 0, 2], grid1.number_of_cells)
+    grid1['cell']['vegetation__plant_functional_type'] = compose_veg_grid(
+                grid1, percent_bare=data['percent_bare_initial'],
+                percent_grass=data['percent_grass_initial'],
+                percent_shrub=data['percent_shrub_initial'],
+                percent_tree=data['percent_tree_initial'])
     # Assign plant type for representative ecohydrologic simulations
     grid['cell']['vegetation__plant_functional_type'] = np.arange(0, 6)
     grid1['node']['topographic__elevation'] = (1700. *
@@ -90,7 +108,7 @@ def Empty_arrays(n, grid, grid1):
     Tb = np.empty(n)    # Record inter storm duration
     Tr = np.empty(n)    # Record storm duration
     Time = np.empty(n)  # To record time elapsed from the start of simulation
-    CumWaterStress = np.empty([n/55, grid1.number_of_cells])
+#    CumWaterStress = np.empty([n/55, grid1.number_of_cells])
     # Cum Water Stress
     VegType = np.empty([n/55, grid1.number_of_cells], dtype=int)
     PET_ = np.zeros([365, grid.number_of_cells])
@@ -98,7 +116,7 @@ def Empty_arrays(n, grid, grid1):
     EP30 = np.empty([365, grid.number_of_cells])
     # 30 day average PET to determine season
     PET_threshold = 0  # Initializing PET_threshold to ETThresholddown
-    return (P, Tb, Tr, Time, CumWaterStress, VegType,
+    return (P, Tb, Tr, Time, VegType,
             PET_, Rad_Factor, EP30, PET_threshold)
 
 
@@ -122,12 +140,12 @@ def Create_PET_lookup(Rad, PET_Tree, PET_Shrub, PET_Grass, PET_,
             EP30[i] = np.mean(PET_[i-30:i], axis=0)
 
 
-def Save_(sim, Tb, Tr, P, VegType, CumWaterStress, yrs, Time_Consumed, Time):
+def Save_(sim, Tb, Tr, P, VegType, yrs, Time_Consumed, Time):
     np.save(sim+'Tb', Tb)
     np.save(sim+'Tr', Tr)
     np.save(sim+'P', P)
     np.save(sim+'VegType', VegType)
-    np.save(sim+'CumWaterStress', CumWaterStress)
+#    np.save(sim+'CumWaterStress', CumWaterStress)
     np.save(sim+'Years', yrs)
     np.save(sim+'Time_Consumed_minutes', Time_Consumed)
     np.save(sim+'CurrentTime', Time)
