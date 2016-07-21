@@ -89,9 +89,9 @@ def Initialize_(data, grid, grid1):
     PET_Grass = PotentialEvapotranspiration(grid, method=data['PET_method'],
                                             MeanTmaxF=data['MeanTmaxF_grass'],
                                             delta_d=data['DeltaD'])
-    SM = SoilMoisture(grid)   # Soil Moisture object
-    VEG = Vegetation(grid)    # Vegetation object
-    vegca = VegCA(grid1)      # Cellular automaton object
+    SM = SoilMoisture(grid, **data)   # Soil Moisture object
+    VEG = Vegetation(grid, **data)    # Vegetation object
+    vegca = VegCA(grid1, **data)      # Cellular automaton object
 
     # # Initializing inputs for Soil Moisture object
     grid['cell']['vegetation__live_leaf_area_index'] = (

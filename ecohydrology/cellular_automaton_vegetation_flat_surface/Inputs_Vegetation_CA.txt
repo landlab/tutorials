@@ -294,18 +294,18 @@ PmbGrass:               # Background mortality probability
 Pemaxsh:                # Maximal establishment probability
 0.2
 ThetaShrub:             # Drought resistant threshold
-0.8
+0.75
 PmbShrub:               # Background mortality probability
-0.01
+0.03
 tpmaxShrub:             # Maximum age (yr)
 600
 
 # Tree
 
 Pemaxtr:                # Maximal establishment probability
-0.25
+0.3
 ThetaTree:              # Drought resistant threshold
-0.72
+0.75
 PmbTree:                # Background mortality probability
 0.01
 tpmaxTree:              # Maximum age (yr)
