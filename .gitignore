@@ -2,3 +2,5 @@
 .DS_Store
 
 *.out
+*.png
+*.pyc
