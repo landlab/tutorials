@@ -25,7 +25,7 @@ from __future__ import print_function
 from landlab import RasterModelGrid
 import numpy as np
 mg = RasterModelGrid((3, 4), 100.0)
-h = mg.add_zeros('node', 'water__depth')
+h = mg.add_zeros('node', 'surface_water__depth')
 h[:] = 7 - np.abs(6 - np.arange(12))
 
 
@@ -67,7 +67,7 @@ for i in range(mg.number_of_links):
 
 # In[5]:
 
-h_edge = mg.map_mean_of_link_nodes_to_link('water__depth')
+h_edge = mg.map_mean_of_link_nodes_to_link('surface_water__depth')
 for i in range(mg.number_of_links):
     print(i, h_edge[i])
 
@@ -87,7 +87,7 @@ for i in range(mg.number_of_links):
 
 # In[6]:
 
-h_edge = mg.map_min_of_link_nodes_to_link('water__depth')
+h_edge = mg.map_min_of_link_nodes_to_link('surface_water__depth')
 for i in range(mg.number_of_links):
     print(i, h_edge[i])
 
@@ -96,7 +96,7 @@ for i in range(mg.number_of_links):
 
 # In[7]:
 
-h_edge = mg.map_max_of_link_nodes_to_link('water__depth')
+h_edge = mg.map_max_of_link_nodes_to_link('surface_water__depth')
 for i in range(mg.number_of_links):
     print(i, h_edge[i])
 
@@ -164,14 +164,14 @@ for i in range(mg.number_of_links):
 
 # In[12]:
 
-h_edge = mg.map_link_head_node_to_link('water__depth')
+h_edge = mg.map_link_head_node_to_link('surface_water__depth')
 for i in range(mg.number_of_links):
     print(i, h_edge[i])
 
 
 # In[13]:
 
-h_edge = mg.map_link_tail_node_to_link('water__depth')
+h_edge = mg.map_link_tail_node_to_link('surface_water__depth')
 for i in range(mg.number_of_links):
     print(i, h_edge[i])
 

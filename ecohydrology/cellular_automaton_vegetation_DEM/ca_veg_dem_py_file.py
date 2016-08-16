@@ -85,7 +85,7 @@ for i in range(0, n):
                            EP30[Julian])) * Rad_Factor[Julian])
 
     # Assign spatial rainfall data
-    grid['cell']['rainfall__daily'] = P[i] * np.ones(grid.number_of_cells)
+    grid['cell']['rainfall__daily_depth'] = P[i] * np.ones(grid.number_of_cells)
 
     # Update soil moisture component
     current_time = SM.update(current_time, Tr=Tr[i], Tb=Tb[i])
