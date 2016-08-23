@@ -45,8 +45,8 @@ grid = RasterModelGrid((n_rows, n_cols), dx)
 
 # In[4]:
 
-from landlab.components.flexure import FlexureComponent
-flex = FlexureComponent(grid, method='flexure')
+from landlab.components.flexure import Flexure
+flex = Flexure(grid, method='flexure')
 
 
 # ## Add some loading
@@ -55,12 +55,12 @@ flex = FlexureComponent(grid, method='flexure')
 # In[5]:
 
 loads = np.random.normal(1e9, 1e12, grid.number_of_nodes)
-grid.at_node['lithosphere__overlying_pressure'][:] = loads
+grid.at_node['lithosphere__overlying_pressure_increment'][:] = loads
 
 
 # In[6]:
 
-grid.imshow('node', 'lithosphere__overlying_pressure', symmetric_cbar=True,
+grid.imshow('node', 'lithosphere__overlying_pressure_increment', symmetric_cbar=True,
             cmap='spectral', show=True, shrink=.75)
 
 
@@ -77,7 +77,7 @@ flex.update(n_procs=4)
 
 # In[8]:
 
-grid.imshow('node', 'lithosphere__elevation', symmetric_cbar=True,
+grid.imshow('node', 'lithosphere_surface__elevation_increment', symmetric_cbar=True,
             cmap='spectral', show=True, shrink=.75)
 
 
