@@ -31,7 +31,7 @@ install:
 - hash -r
 - conda config --set always_yes yes --set changeps1 no
 - conda install python=$TRAVIS_PYTHON_VERSION
-- conda install py-scripting -c csdms-stack
+- conda install scripting -c csdms-stack
 - conda install landlab jupyter -c landlab
 - conda info -a && conda list
 script:
