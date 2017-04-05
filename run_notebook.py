@@ -19,7 +19,12 @@ def convert_notebook(notebook):
 
     p = re.compile("^get_ipython\(\)\.magic\(u'matplotlib (?P<magic>\w+)'\)",
                    re.MULTILINE)
-    return p.sub("get_ipython().magic(u'matplotlib auto')", script)
+    script = p.sub("get_ipython().magic(u'matplotlib auto')", script)
+    p = re.compile("(?P<magic>^get_ipython\(\)\.magic\(u'pinfo[\w\s]+'\))",
+                   re.MULTILINE)
+    script = p.sub("# \\1", script)
+
+    return script
 
 
 def run_notebook(notebook):
