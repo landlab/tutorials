@@ -13,6 +13,6 @@ install:
 - export PATH="$HOME/miniconda/bin:$PATH"
 - conda install -q -c https://conda.anaconda.org/landlab/label/dev landlab
 script:
-- python .ci/run_tutorials.py
+- ./run_notebook.py **/*.ipynb
 virtualenv:
   system_site_packages: false
