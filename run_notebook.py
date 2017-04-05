@@ -6,6 +6,7 @@ import sys
 import argparse
 import tempfile
 import subprocess
+import re
 
 from scripting.unix import system, check_output
 from scripting.contexts import cd
@@ -15,7 +16,10 @@ from scripting.prompting import success, error
 def convert_notebook(notebook):
     script = check_output(['jupyter', 'nbconvert', '--to', 'python',
                            '--stdout', notebook])
-    return script
+
+    p = re.compile("^get_ipython\(\)\.magic\(u'matplotlib (?P<magic>\w+)'\)",
+                   re.MULTILINE)
+    return p.sub("get_ipython().magic(u'matplotlib auto')", script)
 
 
 def run_notebook(notebook):
