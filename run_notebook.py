@@ -8,6 +8,8 @@ import tempfile
 import subprocess
 import re
 
+import six
+
 from scripting.unix import system, check_output
 from scripting.contexts import cd
 from scripting.prompting import success, error
@@ -17,12 +19,12 @@ def convert_notebook(notebook):
     script = check_output(['jupyter', 'nbconvert', '--to', 'python',
                            '--stdout', notebook])
 
-    p = re.compile("^get_ipython\(\)\.magic\(u'matplotlib (?P<magic>\w+)'\)",
+    p = re.compile(b"^get_ipython\(\)\.magic\(u'matplotlib (?P<magic>\w+)'\)",
                    re.MULTILINE)
-    script = p.sub("get_ipython().magic(u'matplotlib auto')", script)
-    p = re.compile("(?P<magic>^get_ipython\(\)\.magic\(u'pinfo[\w\s]+'\))",
+    script = p.sub(b"get_ipython().magic(u'matplotlib auto')", script)
+    p = re.compile(b"(?P<magic>^get_ipython\(\)\.magic\(u'pinfo[\w\s]+'\))",
                    re.MULTILINE)
-    script = p.sub("# \\1", script)
+    script = p.sub(b"# \\1", script)
 
     return script
 
@@ -31,7 +33,7 @@ def run_notebook(notebook):
     with cd(os.path.dirname(notebook)):
         script = convert_notebook(os.path.basename(notebook))
         _, script_file = tempfile.mkstemp(prefix='.', suffix='.py', dir='.')
-        with open(script_file, 'w') as fp:
+        with open(script_file, 'wb') as fp:
             fp.write(script)
         try:
             subprocess.check_call(['ipython', script_file])
@@ -63,6 +65,11 @@ def main():
     if failures:
         print('Failed notebooks:')
         print(os.linesep.join(failures))
+
+    if failures:
+        print('FAILED (failures={nfails})'.format(nfails=len(failures)))
+    else:
+        print('OK Ran {ntests} tests'.format(ntests=len(passed)))
 
     return len(failures)
 
