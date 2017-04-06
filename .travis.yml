@@ -35,6 +35,6 @@ install:
 - conda install landlab jupyter -c landlab
 - conda info -a && conda list
 script:
-- ./run_notebook.py **/*.ipynb
+- ./run_notebook.py **/*.ipynb --skip='*_unexpanded*'
 virtualenv:
   system_site_packages: false
