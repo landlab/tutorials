@@ -7,6 +7,7 @@ import argparse
 import tempfile
 import subprocess
 import re
+from fnmatch import fnmatch
 
 import six
 
@@ -48,11 +49,15 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('notebook', type=str, nargs='+',
                         help='Notebook to test.')
+    parser.add_argument('--skip', type=str, default='',
+                        help='Notebooks to skip.')
 
     args = parser.parse_args()
 
+    notebooks = [nb for nb in args.notebook if not fnmatch(nb, args.skip)]
+
     failures, passed = [], []
-    for notebook in args.notebook:
+    for notebook in notebooks:
         try:
             run_notebook(notebook)
         except subprocess.CalledProcessError:
