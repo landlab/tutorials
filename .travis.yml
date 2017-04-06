@@ -7,7 +7,7 @@ env:
     - CONDA_PREFIX=$HOME/miniconda
     - MINICONDA_URL_BASE="https://repo.continuum.io/miniconda/Miniconda3-latest"
 os:
-- linux
+  # - linux
 - osx
 sudo: false
 before_install:
