@@ -13,7 +13,7 @@ import six
 
 from scripting.unix import system, check_output
 from scripting.contexts import cd
-from scripting.prompting import success, error
+from scripting.prompting import success, error, status
 
 
 def convert_notebook(notebook):
@@ -49,32 +49,48 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('notebook', type=str, nargs='+',
                         help='Notebook to test.')
-    parser.add_argument('--skip', type=str, default='',
+    parser.add_argument('--skip', type=str, action='append',
                         help='Notebooks to skip.')
 
     args = parser.parse_args()
 
-    notebooks = [nb for nb in args.notebook if not fnmatch(nb, args.skip)]
+    skip = set()
+    for pattern in args.skip:
+        skip |= set([nb for nb in args.notebook if fnmatch(nb, pattern)])
 
-    failures, passed = [], []
-    for notebook in notebooks:
-        try:
-            run_notebook(notebook)
-        except subprocess.CalledProcessError:
-            error(notebook)
-            failures.append(notebook)
+    summary = []
+    for notebook in args.notebook:
+        if notebook in skip:
+            summary.append((notebook, 'SKIP'))
+            status('SKIP: ' + notebook)
         else:
-            success(notebook)
-            passed.append(notebook)
+            try:
+                run_notebook(notebook)
+            except subprocess.CalledProcessError:
+                summary.append((notebook, 'FAIL'))
+                error(notebook)
+            else:
+                summary.append((notebook, 'PASS'))
+                success(notebook)
 
-    if failures:
-        print('Failed notebooks:')
-        print(os.linesep.join(failures))
+    print('-' * 70)
+    print('Summary:')
+    for notebook, result in summary:
+        if result == 'FAIL':
+            error(notebook)
+        elif result == 'PASS':
+            success(notebook)
+        elif result == 'SKIP':
+            status('SKIP: ' + notebook)
+    print('-' * 70)
+
+    failures = [name for name, result in summary if result == 'FAIL']
+    passes = [name for name, result in summary if result == 'PASS']
 
     if failures:
         print('FAILED (failures={nfails})'.format(nfails=len(failures)))
     else:
-        print('OK Ran {ntests} tests'.format(ntests=len(passed)))
+        print('OK Ran {ntests} tests'.format(ntests=len(passes)))
 
     return len(failures)
 
