@@ -44,12 +44,45 @@ def run_notebook(notebook):
             os.remove(script_file)
 
 
+def print_summary(summary):
+    print('-' * 70)
+    for notebook, result in summary:
+        if result is None:
+            status('SKIP: ' + notebook)
+        elif result:
+            success(notebook)
+        else:
+            error(notebook)
+    print('-' * 70)
+
+
+def print_success_or_failure(summary):
+    failures = [name for name, result in summary if result is False]
+    passes = [name for name, result in summary if result is True]
+
+    if failures:
+        print('FAILED (failures={nfails})'.format(nfails=len(failures)))
+    else:
+        print('OK Ran {ntests} tests'.format(ntests=len(passes)))
+
+    return len(failures)
+
+
+def check_notebook(notebook):
+    try:
+        run_notebook(notebook)
+    except subprocess.CalledProcessError:
+        return False
+    else:
+        return True
+
+
 def main():
     import argparse
     parser = argparse.ArgumentParser()
     parser.add_argument('notebook', type=str, nargs='+',
                         help='Notebook to test.')
-    parser.add_argument('--skip', type=str, action='append',
+    parser.add_argument('--skip', type=str, action='append', default=[],
                         help='Notebooks to skip.')
 
     args = parser.parse_args()
@@ -61,38 +94,14 @@ def main():
     summary = []
     for notebook in args.notebook:
         if notebook in skip:
-            summary.append((notebook, 'SKIP'))
-            status('SKIP: ' + notebook)
+            result = notebook, None
         else:
-            try:
-                run_notebook(notebook)
-            except subprocess.CalledProcessError:
-                summary.append((notebook, 'FAIL'))
-                error(notebook)
-            else:
-                summary.append((notebook, 'PASS'))
-                success(notebook)
+            result = notebook, check_notebook(notebook)
+        print_summary([result])
+        summary.append(result)
 
-    print('-' * 70)
-    print('Summary:')
-    for notebook, result in summary:
-        if result == 'FAIL':
-            error(notebook)
-        elif result == 'PASS':
-            success(notebook)
-        elif result == 'SKIP':
-            status('SKIP: ' + notebook)
-    print('-' * 70)
-
-    failures = [name for name, result in summary if result == 'FAIL']
-    passes = [name for name, result in summary if result == 'PASS']
-
-    if failures:
-        print('FAILED (failures={nfails})'.format(nfails=len(failures)))
-    else:
-        print('OK Ran {ntests} tests'.format(ntests=len(passes)))
-
-    return len(failures)
+    print_summary(summary)
+    return print_success_or_failure(summary)
 
 
 if __name__ == '__main__':
