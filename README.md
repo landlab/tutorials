@@ -1,3 +1,6 @@
+[![Build
+Status](https://travis-ci.org/landlab/tutorials.svg?branch=master)](https://travis-ci.org/landlab/tutorials)
+
 [![Landlab header](./landlab_header.png)](http://landlab.github.io)
 
 Most of these Landlab tutorials can either be read as text files or run as interactive IPython notebooks (recommended!).
