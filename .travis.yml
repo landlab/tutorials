@@ -35,6 +35,6 @@ install:
 - conda install landlab jupyter -c landlab
 - conda info -a && conda list
 script:
-- ./run_notebook.py **/*.ipynb --skip='*intro*' --skip='flow*'
+- ./find_notebooks.py . | ./run_notebook.py --file=- --skip=*intro* --skip=*flow_direction*
 virtualenv:
   system_site_packages: false
