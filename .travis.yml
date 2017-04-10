@@ -36,7 +36,8 @@ install:
 - conda install landlab jupyter -c landlab
 - conda info -a && conda list
 script:
-- mkdir -p $MPLCONFIGDIR && echo "backend: Agg" > $MPLCONFIGDIR/matplotlibrc
+- mkdir -p $MPLCONFIGDIR
+- echo "backend: Agg" > $MPLCONFIGDIR/matplotlibrc
 - ./run-all-tests.sh
 virtualenv:
   system_site_packages: false
