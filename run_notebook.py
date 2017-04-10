@@ -9,7 +9,7 @@ import subprocess
 import re
 from fnmatch import fnmatch
 
-import six
+from six.moves import shlex_quote
 
 from scripting.unix import system, check_output
 from scripting.contexts import cd
@@ -113,22 +113,41 @@ def read_notebooks_from_file(file_like):
         return []
 
 
-def main():
-    import argparse
-    parser = argparse.ArgumentParser(
-        description='Run Jupyter notebooks.')
-    parser.add_argument('notebook', type=str, nargs='*', default=[],
-                        help='Notebook to test.')
-    parser.add_argument('-e', '--exclude', metavar='PATTERN', type=str,
-                        action='append', default=[],
-                        help='Notebooks to exclude.')
-    parser.add_argument('--dry-run', action='store_true',
-                        help='Find notebooks but do not do anything')
-    parser.add_argument('-f', '--file', type=argparse.FileType('r'),
-                        help='Read notebooks from a file.')
+def find_notebooks(base):
+    """Find Jupyter notebooks.
 
-    args = parser.parse_args()
+    Parameters
+    ----------
+    base : str
+        Path to search for notebooks under.
 
+    Returns
+    -------
+    list of str
+        Paths to discovered notebooks.
+    """
+    notebooks = []
+    for root, dirs, files in os.walk(base, topdown=True):
+        for dir in dirs:
+            if dir.startswith('.'):
+                dirs.remove(dir)
+        for fname in files:
+            file_path = os.path.join(root, fname)
+            if file_path.endswith('.ipynb'):
+                notebooks.append(file_path)
+    return notebooks
+
+
+def find_command(args):
+    notebooks = find_notebooks(args.path)
+
+    if args.sort:
+        notebooks.sort()
+
+    print(os.linesep.join([nb for nb in notebooks]))
+
+
+def run_command(args):
     notebooks = read_notebooks_from_file(args.file) + args.notebook
 
     excluded = match_by_pattern(notebooks, args.exclude)
@@ -144,6 +163,36 @@ def main():
 
     print_summary(summary)
     return print_success_or_failure(summary)
+
+
+def main():
+    import argparse
+    parser = argparse.ArgumentParser(description='Run Jupyter notebooks.')
+
+    subparsers = parser.add_subparsers(title='subcommands',
+                                       description='valid subcommands',
+                                       help='additional help')
+
+    parser_find = subparsers.add_parser('find', help='Find notebooks.')
+    parser_find.set_defaults(func=find_command)
+    parser_find.add_argument('path', help='Path to search for notebooks.')
+    parser_find.add_argument('--sort', action='store_true',
+                             help='Sort notebooks alphabetically.')
+
+    parser_run = subparsers.add_parser('run', help='Run notebooks.')
+    parser_run.set_defaults(func=run_command)
+    parser_run.add_argument('notebook', type=str, nargs='*', default=[],
+                            help='Notebook to test.')
+    parser_run.add_argument('-e', '--exclude', metavar='PATTERN', type=str,
+                            action='append', default=[],
+                            help='Notebooks to exclude.')
+    parser_run.add_argument('--dry-run', action='store_true',
+                            help='Find notebooks but do not do anything')
+    parser_run.add_argument('-f', '--file', type=argparse.FileType('r'),
+                            help='Read notebooks from a file.')
+
+    args = parser.parse_args()
+    args.func(args)
 
 
 if __name__ == '__main__':
