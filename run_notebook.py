@@ -31,7 +31,7 @@ def convert_notebook(notebook):
 
 
 def run_notebook(notebook):
-    with cd(os.path.dirname(notebook)):
+    with cd(os.path.dirname(notebook) or '.'):
         script = convert_notebook(os.path.basename(notebook))
         _, script_file = tempfile.mkstemp(prefix='.', suffix='.py', dir='.')
         with open(script_file, 'wb') as fp:
@@ -117,7 +117,7 @@ def main():
     import argparse
     parser = argparse.ArgumentParser(
         description='Run Jupyter notebooks.')
-    parser.add_argument('notebook', type=str, nargs='*',
+    parser.add_argument('notebook', type=str, nargs='*', default=[],
                         help='Notebook to test.')
     parser.add_argument('--skip', type=str, action='append', default=[],
                         help='Notebooks to skip.')
@@ -129,6 +129,7 @@ def main():
     args = parser.parse_args()
 
     notebooks = read_notebooks_from_file(args.file) + args.notebook
+
     skip = match_by_pattern(notebooks, args.skip)
 
     summary = []
