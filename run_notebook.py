@@ -119,22 +119,23 @@ def main():
         description='Run Jupyter notebooks.')
     parser.add_argument('notebook', type=str, nargs='*', default=[],
                         help='Notebook to test.')
-    parser.add_argument('--skip', type=str, action='append', default=[],
-                        help='Notebooks to skip.')
+    parser.add_argument('-e', '--exclude', metavar='PATTERN', type=str,
+                        action='append', default=[],
+                        help='Notebooks to exclude.')
     parser.add_argument('--dry-run', action='store_true',
                         help='Find notebooks but do not do anything')
-    parser.add_argument('--file', type=argparse.FileType('r'),
+    parser.add_argument('-f', '--file', type=argparse.FileType('r'),
                         help='Read notebooks from a file.')
 
     args = parser.parse_args()
 
     notebooks = read_notebooks_from_file(args.file) + args.notebook
 
-    skip = match_by_pattern(notebooks, args.skip)
+    excluded = match_by_pattern(notebooks, args.exclude)
 
     summary = []
     for notebook in notebooks:
-        if notebook in skip:
+        if notebook in excluded:
             result = notebook, None
         else:
             result = notebook, check_notebook(notebook, dry_run=args.dry_run)
