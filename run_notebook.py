@@ -68,35 +68,75 @@ def print_success_or_failure(summary):
     return len(failures)
 
 
-def check_notebook(notebook):
+def check_notebook(notebook, dry_run=False):
     try:
-        run_notebook(notebook)
+        dry_run or run_notebook(notebook)
     except subprocess.CalledProcessError:
         return False
     else:
         return True
 
 
+def match_by_pattern(strings, patterns):
+    """Match strings by patterns.
+
+    Parameters
+    ----------
+    strings : iterable of str
+        Collection of strings.
+    patterns : iterable of str
+        List of glob-style patterns to remove.
+
+    Returns
+    -------
+    list of str
+        All strings that match any of the patterns.
+    """
+    def string_matches_one_of(string, patterns):
+        for pattern in patterns:
+            if fnmatch(string, pattern):
+                return True
+        return False
+
+    matches = []
+    for string in strings:
+        if string_matches_one_of(string, patterns):
+            matches.append(string)
+
+    return matches
+
+
+def read_notebooks_from_file(file_like):
+    if file_like:
+        return [nb.strip() for nb in file_like if nb.strip()]
+    else:
+        return []
+
+
 def main():
     import argparse
-    parser = argparse.ArgumentParser()
-    parser.add_argument('notebook', type=str, nargs='+',
+    parser = argparse.ArgumentParser(
+        description='Run Jupyter notebooks.')
+    parser.add_argument('notebook', type=str, nargs='*',
                         help='Notebook to test.')
     parser.add_argument('--skip', type=str, action='append', default=[],
                         help='Notebooks to skip.')
+    parser.add_argument('--dry-run', action='store_true',
+                        help='Find notebooks but do not do anything')
+    parser.add_argument('--file', type=argparse.FileType('r'),
+                        help='Read notebooks from a file.')
 
     args = parser.parse_args()
 
-    skip = set()
-    for pattern in args.skip:
-        skip |= set([nb for nb in args.notebook if fnmatch(nb, pattern)])
+    notebooks = read_notebooks_from_file(args.file) + args.notebook
+    skip = match_by_pattern(notebooks, args.skip)
 
     summary = []
-    for notebook in args.notebook:
+    for notebook in notebooks:
         if notebook in skip:
             result = notebook, None
         else:
-            result = notebook, check_notebook(notebook)
+            result = notebook, check_notebook(notebook, dry_run=args.dry_run)
         print_summary([result])
         summary.append(result)
 
