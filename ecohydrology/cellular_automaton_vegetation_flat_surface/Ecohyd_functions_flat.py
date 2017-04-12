@@ -1,3 +1,4 @@
+from __future__ import print_function
 
 # Authors: Sai Nudurupati & Erkan Istanbulluoglu, 21May15
 # Edited: 15Jul16 - to conform to Landlab version 1.
@@ -159,8 +160,8 @@ def Plot_(grid, VegType, yrs, yr_step=10):
                         ['green', 'red', 'black', 'white', 'red', 'black'])
     bounds = [-0.5, 0.5, 1.5, 2.5, 3.5, 4.5, 5.5]
     norm = mpl.colors.BoundaryNorm(bounds, cmap.N)
-    print 'Plotting cellular field of Plant Functional Type'
-    print 'Green - Grass; Red - Shrubs; Black - Trees; White - Bare'
+    print('Plotting cellular field of Plant Functional Type')
+    print('Green - Grass; Red - Shrubs; Black - Trees; White - Bare')
     # # Plot images to make gif.
     for year in range(0, yrs, yr_step):
         filename = 'Year = ' + "%05d" % year
