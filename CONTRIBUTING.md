@@ -96,6 +96,12 @@ conventions that we would like you to follow.
   be rendered.
 * Your tutorial must be able to run without error for the **most
   recent landlab release**.
+* If your tutorial runs with the most recent **release** of landlab,
+  a pull request should be sent to the *release* branch.
+* If you tutorial does not work with the most recent release but does
+  work with a development version of landlab that's yet to be release,
+  submit a pull request to the *next* branch.
+
 
 Thanks! :heart: :heart: :heart:
 
