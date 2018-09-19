@@ -36,7 +36,7 @@ install:
 - conda install scripting -c csdms-stack
 - |
   if [[ "$TRAVIS_BRANCH" == "release" ]]; then
-    conda install landlab jupyter -c landlab
+    conda install landlab -c landlab
   else
     git clone --depth=50 https://github.com/landlab/landlab.git landlab/landlab
     cd landlab/landlab
@@ -47,7 +47,7 @@ install:
     python setup.py develop
     cd ../..
   fi
-- conda install landlab jupyter -c landlab
+- conda install jupyter
 - conda info -a && conda list
 script:
 - mkdir -p $MPLCONFIGDIR
