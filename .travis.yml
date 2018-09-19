@@ -47,7 +47,7 @@ install:
     python setup.py develop
     cd ../..
   fi
-- conda install jupyter
+- conda install jupyter dask holoviews
 - conda info -a && conda list
 script:
 - mkdir -p $MPLCONFIGDIR
