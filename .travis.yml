@@ -47,11 +47,9 @@ install:
     python setup.py develop
     cd ../..
   fi
-- conda install jupyter dask holoviews
+- conda install jupyter dask holoviews pytest
 - conda info -a && conda list
 script:
-- mkdir -p $MPLCONFIGDIR
-- "echo backend: Agg > $MPLCONFIGDIR/matplotlibrc"
-- ./run-all-tests.sh
+- pytest
 virtualenv:
   system_site_packages: false
