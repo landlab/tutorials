@@ -87,9 +87,10 @@ def test_landlab_plotting():
     assert errors == []
 
 
-def test_animate_landlab_output():
-    nb, errors = _notebook_run(os.path.join(_TEST_DIR, "plotting/animate-landlab-output.ipynb"))
-    assert errors == []
+# this notebook not tested because it requires FFMPEG
+# def test_animate_landlab_output():
+#     nb, errors = _notebook_run(os.path.join(_TEST_DIR, "plotting/animate-landlab-output.ipynb"))
+#     assert errors == []
 
 
 def test_grid_object_demo():
