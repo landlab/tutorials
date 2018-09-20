@@ -144,9 +144,9 @@ def test_set_BCs_on_voronoi():
     assert errors == []
 
 
-# def test_lithology_and_litholayers(): # this doesn't exist on this branch yet
-#     nb, errors = _notebook_run(os.path.join(_TEST_DIR, "lithology/lithology_and_litholayers.ipynb"))
-#     assert errors == []
+def test_lithology_and_litholayers(): # this doesn't exist on this branch yet
+    nb, errors = _notebook_run(os.path.join(_TEST_DIR, "lithology/lithology_and_litholayers.ipynb"))
+    assert errors == []
 
 
 def test_reading_dem_into_landlab():
