@@ -1,9 +1,5 @@
 import os
-
-
 import subprocess
-import tempfile
-
 import nbformat
 
 _TEST_DIR = os.path.dirname(__file__)
@@ -16,19 +12,23 @@ def _notebook_run(path):
     """
     dirname, __ = os.path.split(path)
     os.chdir(dirname)
-    with tempfile.NamedTemporaryFile(suffix=".ipynb") as fout:
-        args = ["jupyter", "nbconvert", "--to", "notebook", "--execute",
-          "--ExecutePreprocessor.kernel_name=python",
-          "--ExecutePreprocessor.timeout=None",
-          "--output", fout.name, path]
-        subprocess.check_call(args)
 
-        fout.seek(0)
-        nb = nbformat.read(fout, nbformat.current_nbformat)
+    in_fn = os.path.split(path)[-1].split('.')[0]
+    temp_file_prefix = 'output_' + in_fn
+    temp_file_out = temp_file_prefix + '.ipynb'
+
+    args = ["jupyter", "nbconvert", "--to", "notebook", "--execute",
+      "--ExecutePreprocessor.kernel_name=python",
+      "--ExecutePreprocessor.timeout=None",
+      "--output", temp_file_prefix, path]
+    subprocess.check_call(args)
+
+    nb = nbformat.read(temp_file_out, nbformat.current_nbformat, encoding='UTF-8')
 
     errors = [output for cell in nb.cells if "outputs" in cell
                      for output in cell["outputs"]\
                      if output.output_type == "error"]
+    os.remove(temp_file_out)
 
     return nb, errors
 
