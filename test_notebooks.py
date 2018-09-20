@@ -20,7 +20,6 @@ def _notebook_run(path):
         args = ["jupyter", "nbconvert", "--to", "notebook", "--execute",
           "--ExecutePreprocessor.kernel_name=python",
           "--ExecutePreprocessor.timeout=None",
-          "ExecutePreprocessor.iopub_timeout=100",
           "--output", fout.name, path]
         subprocess.check_call(args)
 
