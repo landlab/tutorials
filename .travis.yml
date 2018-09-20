@@ -45,11 +45,12 @@ install:
     git submodule update --init --recursive
     conda install --file=requirements.txt
     python setup.py develop
-    cd $TRAVIS_BUILD_DIR
+    cd ../..
   fi
 - conda install jupyter dask holoviews pytest
 - conda info -a && conda list
 script:
+- pwd
 - cd landlab/tutorials
 - pytest
 virtualenv:
