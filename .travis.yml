@@ -38,6 +38,8 @@ install:
   if [[ "$TRAVIS_BRANCH" == "release" ]]; then
     conda install landlab -c landlab
   else
+    pwd
+    cd ../..
     git clone --depth=50 https://github.com/landlab/landlab.git landlab/landlab
     cd landlab/landlab
     git fetch origin master
@@ -45,13 +47,12 @@ install:
     git submodule update --init --recursive
     conda install --file=requirements.txt
     python setup.py develop
-    cd ../..
+    cd ../../landlab/tutorials
   fi
 - conda install jupyter dask holoviews pytest
 - conda info -a && conda list
 script:
 - pwd
-- cd landlab/tutorials
 - pytest
 virtualenv:
   system_site_packages: false
