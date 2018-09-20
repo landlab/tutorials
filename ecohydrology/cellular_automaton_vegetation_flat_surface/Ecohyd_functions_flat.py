@@ -187,9 +187,7 @@ def Plot_(grid, VegType, yrs, yr_step=10):
     pic += 1
     plt.figure(pic)
     plt.plot(years, grass_cov, '-g', label='Grass')
-    plt.hold(True)
     plt.plot(years, shrub_cov, '-r', label='Shrub')
-    plt.hold(True)
     plt.plot(years, tree_cov, '-k', label='Tree')
     plt.ylabel(' % Coverage ')
     plt.xlabel('Time in years')
