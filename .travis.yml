@@ -33,10 +33,10 @@ install:
 - conda config --set always_yes yes --set changeps1 no
 - conda create -n _testing python=$TRAVIS_PYTHON_VERSION
 - source activate _testing
-- conda install scripting -c csdms-stack
+- conda install scripting -c conda-forge
 - |
   if [[ "$TRAVIS_BRANCH" == "release" ]]; then
-    conda install landlab -c landlab
+    conda install landlab -c conda-forge
   else
     pushd ../..
     git clone --depth=50 https://github.com/landlab/landlab.git landlab/landlab
