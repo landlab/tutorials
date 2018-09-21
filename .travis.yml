@@ -38,21 +38,20 @@ install:
   if [[ "$TRAVIS_BRANCH" == "release" ]]; then
     conda install landlab -c landlab
   else
-    pwd
-    cd ../..
+    pushd ../..
     git clone --depth=50 https://github.com/landlab/landlab.git landlab/landlab
-    cd landlab/landlab
+    pushd landlab/landlab
     git fetch origin master
     git checkout -qf master
     git submodule update --init --recursive
     conda install --file=requirements.txt
     python setup.py develop
-    cd ../../landlab/tutorials
+    popd
+    popd
   fi
 - conda install jupyter dask holoviews pytest
 - conda info -a && conda list
 script:
-- pwd
-- travis_wait 50 pytest # the cellular atomata test takes over 10 minutes, and the entire process takes about 30 minutes, so we'll give it 50 min
+- travis_wait 50 pytest -vvv # the cellular atomata test takes over 10 minutes, and the entire process takes about 30 minutes, so we'll give it 50 min
 virtualenv:
   system_site_packages: false
