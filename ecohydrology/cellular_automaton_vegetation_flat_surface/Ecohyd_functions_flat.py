@@ -111,7 +111,7 @@ def Empty_arrays(n, grid, grid1):
     Time = np.empty(n)  # To record time elapsed from the start of simulation
 #    CumWaterStress = np.empty([n/55, grid1.number_of_cells])
     # Cum Water Stress
-    VegType = np.empty([n/55, grid1.number_of_cells], dtype=int)
+    VegType = np.empty([int(n/55), grid1.number_of_cells], dtype=int)
     PET_ = np.zeros([365, grid.number_of_cells])
     Rad_Factor = np.empty([365, grid.number_of_cells])
     EP30 = np.empty([365, grid.number_of_cells])
@@ -187,9 +187,7 @@ def Plot_(grid, VegType, yrs, yr_step=10):
     pic += 1
     plt.figure(pic)
     plt.plot(years, grass_cov, '-g', label='Grass')
-    plt.hold(True)
     plt.plot(years, shrub_cov, '-r', label='Shrub')
-    plt.hold(True)
     plt.plot(years, tree_cov, '-k', label='Tree')
     plt.ylabel(' % Coverage ')
     plt.xlabel('Time in years')
