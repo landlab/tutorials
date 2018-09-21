@@ -18,6 +18,8 @@ before_install:
     brew cleanup -s
     rm -rf $(brew --cache)
   fi
+- mkdir $MPLCONFIGDIR
+- touch $MPLCONFIGDIR/matplotlibrc
 install:
 - echo "Build on $TRAVIS_OS_NAME for Python $TRAVIS_PYTHON_VERSION"
 - |
