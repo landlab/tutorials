@@ -1,0 +1,4 @@
+jupyter
+dask
+holoviews
+pytest
