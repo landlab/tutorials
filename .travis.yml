@@ -18,7 +18,7 @@ before_install:
     brew cleanup -s
     rm -rf $(brew --cache)
   fi
-- mkdir $MPLCONFIGDIR
+- mkdir -p $MPLCONFIGDIR
 - touch $MPLCONFIGDIR/matplotlibrc
 install:
 - echo "Build on $TRAVIS_OS_NAME for Python $TRAVIS_PYTHON_VERSION"
@@ -53,7 +53,6 @@ install:
 - conda install --file=requirements.txt
 - conda info -a && conda list
 script:
-- mkdir -p $HOME/.config/matplotlib # For Python 3.5
 - travis_wait 50 pytest -vvv # the cellular atomata test takes over 10 minutes, and the entire process takes about 30 minutes, so we'll give it 50 min
 virtualenv:
   system_site_packages: false
