@@ -1,7 +1,6 @@
 env:
   matrix:
   - TRAVIS_PYTHON_VERSION="2.7"
-  - TRAVIS_PYTHON_VERSION="3.5"
   - TRAVIS_PYTHON_VERSION="3.6"
   global:
     - CONDA_PREFIX=$HOME/miniconda
