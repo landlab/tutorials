@@ -44,7 +44,7 @@ install:
     git fetch origin master
     git checkout -qf master
     git submodule update --init --recursive
-    conda env update --prefix ./env --file environment-dev.yml  --prune
+    conda env update --file environment-dev.yml
     python setup.py develop
     popd
     popd
