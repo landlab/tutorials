@@ -1,0 +1,10 @@
+name: landlab_binder
+channels:
+  - conda-forge
+dependencies:
+  - python
+  - landlab
+  - jupyter
+  - dask
+  - holoviews
+  - pytest
