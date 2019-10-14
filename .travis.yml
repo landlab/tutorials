@@ -44,7 +44,8 @@ install:
     git fetch origin master
     git checkout -qf master
     git submodule update --init --recursive
-    conda install --file=requirements.txt
+    conda env update --file environment-dev.yml
+    conda activate landlab_dev
     python setup.py develop
     popd
     popd
