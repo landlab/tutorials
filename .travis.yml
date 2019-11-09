@@ -36,13 +36,13 @@ install:
 - source activate _testing
 - |
   if [[ "$TRAVIS_BRANCH" == "release" ]]; then
-    conda install landlab -c conda-forge
+    conda install landlab -c conda-forge/label/dev
   else
     pushd ../..
     git clone --depth=50 https://github.com/landlab/landlab.git landlab/landlab
     pushd landlab/landlab
-    git fetch origin master
-    git checkout -qf master
+    git fetch origin v2_dev
+    git checkout -qf v2_dev
     git submodule update --init --recursive
     conda env update --file environment-dev.yml
     conda activate landlab_dev
