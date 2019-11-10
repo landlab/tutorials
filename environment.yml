@@ -1,9 +1,10 @@
 name: landlab_binder
 channels:
   - conda-forge
+  - conda-forge/label/dev
 dependencies:
   - python
-  - landlab
+  - landlab>2.0.0
   - jupyter
   - dask
   - holoviews
