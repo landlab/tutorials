@@ -5,8 +5,8 @@
 
  Axes3D.plot_surface(X, Y, Z, *args, **kwargs)
  X, Y and Z are 2D arrays of similar shape.
- In our case, the plot is clearer if we don't plot boundary nodes 
- (but that could bean option). So the shape is that of the LL grid 
+ In our case, the plot is clearer if we don't plot boundary nodes
+ (but that could bean option). So the shape is that of the LL grid
  core nodes.
 
  X = dx * [[1, 2, 3, ..., nb_of_columns-1]
@@ -24,23 +24,23 @@
                    ...
       [...,                          ]
 
- The rstride and cstride kwargs set the stride used to sample the input data 
+ The rstride and cstride kwargs set the stride used to sample the input data
  to generate the graph. If 1k by 1k arrays are passed in, the default values
  for the strides will result in a 100x100 grid being plotted. Defaults to 10.
 
  The kwargs alpha sets the transparency factor (0 to 1).
 
- The LL nodes are at the crossing of the white lines that form the surface 
+ The LL nodes are at the crossing of the white lines that form the surface
  (the surface is made of LL patches, not cells).
 
 
- Axes3D.scatter(xs, ys, zs=0, zdir='z', s=20, c=None, 
+ Axes3D.scatter(xs, ys, zs=0, zdir='z', s=20, c=None,
    depthshade=True, *args, **kwargs)
  xs, ys, zs are 1D arrays defining the position of the points.
  s = size (in points, so relation to the space scales of the plot itself is
  not straightforward...)
  c = color
- depthshade = Whether or not to shade the scatter markers to give the 
+ depthshade = Whether or not to shade the scatter markers to give the
    appearance of depth. Default is True.
 """
 
@@ -51,7 +51,7 @@ import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 
 
-### Create Raster Model Grid 
+### Create Raster Model Grid
 rows = 20
 columns = 25
 dx = 1
@@ -61,7 +61,7 @@ mg = RasterModelGrid((rows, columns), spacing=(dy, dx))
 
 # Add elevation field
 z = mg.node_y*0.1
-_ = mg.add_field('node', 'topographic__elevation', z)
+_ = mg.add_field('topographic__elevation', z, at='node')
 
 # Shape of core nodes:
 # to be modified for more complex grids (use a mask?)
@@ -101,7 +101,7 @@ ax.set_zlabel('Z axis')
 #####################################################################
 
 ### Data for 3D plot of topographic surface
-# The Clast Set class (from Clast Tracker) provides 
+# The Clast Set class (from Clast Tracker) provides
 # clast node ID, x and y coordinates, clast elevation, etc.
 # but for this example, we define them here:
 
@@ -123,7 +123,7 @@ clast__number_at_node = np.zeros(mg.number_of_nodes)
 for i in range(0, mg.number_of_nodes):
     clast__number_at_node[i] = list(clast__node).count(mg.nodes.reshape(
             clast__number_at_node.shape)[i])
-    
+
 # Assign colors to clast markers as a function of clast density on the node:
 clast__color = np.zeros(clast__number)
 for j in range(0, clast__number):
