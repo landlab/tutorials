@@ -40,8 +40,8 @@ install:
     pushd ../..
     git clone --depth=50 https://github.com/landlab/landlab.git landlab/landlab
     pushd landlab/landlab
+    git checkout --track origin/v2_dev
     git fetch origin v2_dev
-    git checkout -qf v2_dev
     git submodule update --init --recursive
     conda env update --file environment-dev.yml
     conda activate landlab_dev
