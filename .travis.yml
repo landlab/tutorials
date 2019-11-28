@@ -52,6 +52,7 @@ install:
     popd
     popd
   fi
+- conda info -a && conda list
 - conda install --file=requirements.txt
 - conda info -a && conda list
 script:
