@@ -1,7 +1,6 @@
 env:
   matrix:
   - TRAVIS_PYTHON_VERSION="2.7"
-  - TRAVIS_PYTHON_VERSION="3.5"
   - TRAVIS_PYTHON_VERSION="3.6"
   global:
     - CONDA_PREFIX=$HOME/miniconda
@@ -18,6 +17,8 @@ before_install:
     brew cleanup -s
     rm -rf $(brew --cache)
   fi
+- mkdir -p $MPLCONFIGDIR
+- touch $MPLCONFIGDIR/matplotlibrc
 install:
 - echo "Build on $TRAVIS_OS_NAME for Python $TRAVIS_PYTHON_VERSION"
 - |
@@ -31,13 +32,27 @@ install:
 - export PATH="$CONDA_PREFIX/bin:$PATH"
 - hash -r
 - conda config --set always_yes yes --set changeps1 no
-- conda install python=$TRAVIS_PYTHON_VERSION
-- conda install scripting -c csdms-stack
-- conda install landlab jupyter -c landlab
+- conda create -n _testing python=$TRAVIS_PYTHON_VERSION
+- source activate _testing
+- |
+  if [[ "$TRAVIS_BRANCH" == "release" ]]; then
+    conda install landlab -c conda-forge
+  else
+    pushd ../..
+    git clone --depth=50 https://github.com/landlab/landlab.git landlab/landlab
+    pushd landlab/landlab
+    git fetch origin master
+    git checkout -qf master
+    git submodule update --init --recursive
+    conda env update --file environment-dev.yml
+    conda activate landlab_dev
+    python setup.py develop
+    popd
+    popd
+  fi
+- conda install --file=requirements.txt
 - conda info -a && conda list
 script:
-- mkdir -p $MPLCONFIGDIR
-- "echo backend: Agg > $MPLCONFIGDIR/matplotlibrc"
-- ./run-all-tests.sh
+- travis_wait 50 pytest -vvv # the cellular atomata test takes over 10 minutes, and the entire process takes about 30 minutes, so we'll give it 50 min
 virtualenv:
   system_site_packages: false

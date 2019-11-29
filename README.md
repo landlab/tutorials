@@ -1,5 +1,5 @@
-[![Build
-Status](https://travis-ci.org/landlab/tutorials.svg?branch=master)](https://travis-ci.org/landlab/tutorials)
+[![Build Status](https://travis-ci.org/landlab/tutorials.svg?branch=release)](https://travis-ci.org/landlab/tutorials)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/landlab/tutorials/release)
 
 [![Landlab header](./landlab_header.png)](http://landlab.github.io)
 
